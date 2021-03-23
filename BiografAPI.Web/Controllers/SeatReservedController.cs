@@ -13,14 +13,6 @@ namespace BiografAPI.Web.Controllers
     {
         DatabaseProcedures db = new DatabaseProcedures();
 
-        /*
-        [HttpGet]
-        [HttpGet("{id}")]
-        [HttpPost]
-        [HttpPut]
-        [HttpDelete]
-         */
-
         [HttpGet]
         public IActionResult ListAll()
         {

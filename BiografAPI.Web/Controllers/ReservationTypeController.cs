@@ -1,4 +1,5 @@
 ﻿using BiografAPI.Web.Data;
+using BiografAPI.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,48 +14,34 @@ namespace BiografAPI.Web.Controllers
     {
         DatabaseProcedures db = new DatabaseProcedures();
 
-        /*
-        [HttpGet]
-        [HttpGet("{id}")]
-        [HttpPost]
-        [HttpPut]
-        [HttpDelete]
-         */
-
         [HttpGet]
         public IActionResult ListAll()
         {
             return Json(db.GetReservationTypeList());
         }
 
-        [HttpGet("{id}")]
-        public IActionResult List(int id)
+        [HttpGet("{reservationType}")]
+        public IActionResult List([FromBody] ReservationType reservationType)
         {
-            return Json(db.GetReservationType(id));
+            return Json(db.GetReservationType(reservationType.Id));
         }
 
-        [HttpPost]
-        public IActionResult Insert(int id, string type)
+        [HttpPost("{reservationType}")]
+        public IActionResult Insert([FromBody] ReservationType reservationType)
         {
-            var t = db.CreateReservationType(id, type);
-
-            return View();
+            return Ok(db.CreateReservationType(reservationType.Id, reservationType.Type));
         }
 
-        [HttpPut]
-        public IActionResult Update(int id, string newTypeValue)
+        [HttpPut("{reservationType}")]
+        public IActionResult Update([FromBody] ReservationType reservationType)
         {
-            var t = db.UpdateReservationType(id, newTypeValue);
-
-            return View();
+            return Ok(db.UpdateReservationType(reservationType.Id, reservationType.Type));
         }
 
-        [HttpDelete]
-        public IActionResult Delete(int id)
+        [HttpDelete("{reservationType}")]
+        public IActionResult Delete([FromBody] ReservationType reservationType)
         {
-            var t = db.DeleteReservationType(id);
-
-            return View();
+            return Ok(db.DeleteReservationType(reservationType.Id));
         }
     }
 }

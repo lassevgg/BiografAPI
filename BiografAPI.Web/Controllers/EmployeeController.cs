@@ -1,4 +1,5 @@
 ﻿using BiografAPI.Web.Data;
+using BiografAPI.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,34 +20,28 @@ namespace BiografAPI.Web.Controllers
             return Json(db.GetEmployeeList());
         }
 
-        [HttpGet("{id}")]
-        public IActionResult List(int id)
+        [HttpGet("{employee}")]
+        public IActionResult List([FromBody]Employee employee)
         {
-            return Json(db.GetEmployee(id));
+            return Json(db.GetEmployee(employee.Id));
         }
 
-        [HttpPost]
-        public IActionResult Insert(int id, string username, string password)
+        [HttpPost("{employee}")]
+        public IActionResult Insert([FromBody] Employee employee)
         {
-            var t = db.CreateEmployee(id, username, password);
-
-            return View();
+            return Ok(db.CreateEmployee(employee.Id, employee.Username, employee.Password));
         }
 
-        [HttpPut]
-        public IActionResult Update(int id, string newUsernameValue, string newPasswordValue)
+        [HttpPut("{employee}")]
+        public IActionResult Update([FromBody] Employee employee)
         {
-            var t = db.UpdateEmployee(id, newUsernameValue, newPasswordValue);
-
-            return View();
+            return Ok(db.UpdateEmployee(employee.Id, employee.Username, employee.Password));
         }
 
-        [HttpDelete]
-        public IActionResult Delete(int id)
+        [HttpDelete("{employee}")]
+        public IActionResult Delete([FromBody] Employee employee)
         {
-            var t = db.DeleteEmployee(id);
-
-            return View();
+            return Ok(db.DeleteEmployee(employee.Id));
         }
     }
 }

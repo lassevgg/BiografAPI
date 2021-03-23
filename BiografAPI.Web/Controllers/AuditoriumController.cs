@@ -1,4 +1,5 @@
 ﻿using BiografAPI.Web.Data;
+using BiografAPI.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,34 +20,28 @@ namespace BiografAPI.Web.Controllers
             return Json(db.GetAuditoriumList());
         }
 
-        [HttpGet("{id}")]
-        public IActionResult List(int id)
+        [HttpGet("{auditorium}")]
+        public IActionResult List([FromBody] Auditorium auditorium)
         {
-            return Json(db.GetAuditorium(id));
+            return Json(db.GetAuditorium(auditorium.Id));
         }
 
-        [HttpPost]
-        public IActionResult Insert(int id, string name, int seatsNumber)
+        [HttpPost("{auditorium}")]
+        public IActionResult Insert([FromBody] Auditorium auditorium)
         {
-            var t = db.CreateAuditorium(id, name, seatsNumber);
-
-            return View();
+            return Ok(db.CreateAuditorium(auditorium.Id, auditorium.Name, Convert.ToInt32(auditorium.SeatsNumber)));
         }
 
-        [HttpPut]
-        public IActionResult Update(int id, string newNameValue, int? newSeatsNumberValue)
+        [HttpPut("{auditorium}")]
+        public IActionResult Update([FromBody] Auditorium auditorium)
         {
-            var t = db.UpdateAuditorium(id, newNameValue, newSeatsNumberValue);
-
-            return View();
+            return Ok(db.UpdateAuditorium(auditorium.Id, auditorium.Name, auditorium.SeatsNumber));
         }
 
-        [HttpDelete]
-        public IActionResult Delete(int id)
+        [HttpDelete("{auditorium}")]
+        public IActionResult Delete([FromBody] Auditorium auditorium)
         {
-            var t = db.DeleteAuditorium(id);
-
-            return View();
+            return Ok(db.DeleteAuditorium(auditorium.Id));
         }
     }
 }

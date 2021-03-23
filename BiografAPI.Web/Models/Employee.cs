@@ -17,6 +17,8 @@ namespace BiografAPI.Web.Models
         public string Username { get; set; }
         public string Password { get; set; }
 
+        public string Token { get; set; }
+
         public virtual ICollection<Reservation> ReservationEmployeePaids { get; set; }
         public virtual ICollection<Reservation> ReservationEmployeeReserveds { get; set; }
     }

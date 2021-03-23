@@ -1,4 +1,5 @@
 ﻿using BiografAPI.Web.Data;
+using BiografAPI.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -20,10 +21,10 @@ namespace BiografAPI.Web.Controllers
             return Json(db.GetMovieList());
         }
 
-        [HttpGet("{id}")]
-        public IActionResult ListAll(int id)
+        [HttpGet("{movie}")]
+        public IActionResult ListAll([FromBody] Movie movie)
         {
-            return Json(db.GetMovie(id));
+            return Json(db.GetMovie(movie.Id));
         }
 
 
@@ -45,38 +46,29 @@ namespace BiografAPI.Web.Controllers
             return Json(db.GetMovieList().OrderBy(x => x.Genre.Type).ToList());
         }
 
-        [HttpGet("/Movie/ListAllGenre")]
-        public IActionResult ListAllGenre(string genre)
+        [HttpGet("/Movie/ListAllSpecificGenre")]
+        public IActionResult ListAllSpecificGenre([FromBody] Movie movie)
         {
-            return Json(db.GetMovieList().Where(x => x.Genre.Type == genre));
+            return Json(db.GetMovieList().Where(x => x.Genre.Type == movie.Genre.Type));
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> Insert(int id, string title, int genreId, string director, string description, int durationMin)
+        [HttpPost("{movie}")]
+        public IActionResult Insert([FromBody] Movie movie)
         {
-            var t = db.CreateMovie(id, title, genreId, director, description, durationMin);
-
-            return View();
+            return Ok(db.CreateMovie(movie.Id, movie.Title, Convert.ToInt32(movie.GenreId), movie.Director, movie.Description, Convert.ToInt32(movie.DurationMin)));
         }
 
-        [HttpPut]
-        public IActionResult Update(int id, string newTitleValue, int? newGenreIdValue, string newDirectorValue, string newDescriptionValue, int? newDurationMin)
+        [HttpPut("{movie}")]
+        public IActionResult Update([FromBody] Movie movie)
         {
-            var t = db.UpdateMovie(id, newTitleValue, newGenreIdValue, newDirectorValue, newDescriptionValue, newDurationMin);
-
-            return View();
+            return Ok(db.UpdateMovie(movie.Id, movie.Title, movie.GenreId, movie.Director, movie.Description, movie.DurationMin));
         }
 
-        [HttpDelete]
-        public IActionResult Delete(int id)
+        [HttpDelete("{movie}")]
+        public IActionResult Delete([FromBody] Movie movie)
         {
-            var t = db.DeleteEmployee(id);
-
-            return View();
-        }
-
-
-        
+            return Ok(db.DeleteEmployee(movie.Id));
+        }        
     }
 }

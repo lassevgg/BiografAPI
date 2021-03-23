@@ -1,4 +1,5 @@
 ﻿using BiografAPI.Web.Data;
+using BiografAPI.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,34 +20,28 @@ namespace BiografAPI.Web.Controllers
             return Json(db.GetReservationList());
         }
 
-        [HttpGet("{id}")]
-        public IActionResult List(int id)
+        [HttpGet("{reservation}")]
+        public IActionResult List([FromBody] Reservation reservation)
         {
-            return Json(db.GetReservation(id));
+            return Json(db.GetReservation(reservation.Id));
         }
 
-        [HttpPost]
-        public IActionResult Insert(int id, int? screeningId, int? employeeReservedId, int? reservationTypeId, string reservationContactName, bool reserved, int? employeePaidId, bool paid, bool active)
+        [HttpPost("{reservation}")]
+        public IActionResult Insert([FromBody] Reservation reservation)
         {
-            var t = db.CreateReservation(id, screeningId, employeeReservedId, reservationTypeId, reservationContactName, reserved, employeePaidId, paid, active);
-
-            return View();
+            return Ok(db.CreateReservation(reservation.Id, reservation.ScreeningId, reservation.EmployeeReservedId, reservation.ReservationTypeId, reservation.ReservationContactName, Convert.ToBoolean(reservation.Reserved), reservation.EmployeePaidId, Convert.ToBoolean(reservation.Paid), Convert.ToBoolean(reservation.Active)));
         }
 
-        [HttpPut]
-        public IActionResult Update(int id, int? newscreeningIdValue, int? newemployeeReservedIdValue, int? newreservationTypeIdValue, string newreservationContactNameValue, bool newreservedValue, int? newemployeePaidIdValue, bool newpaidValue, bool newactiveValue)
+        [HttpPut("{reservation}")]
+        public IActionResult Update([FromBody] Reservation reservation)
         {
-            var t = db.CreateReservation(id, newscreeningIdValue, newemployeeReservedIdValue, newreservationTypeIdValue, newreservationContactNameValue, newreservedValue, newemployeePaidIdValue, newpaidValue, newactiveValue);
-
-            return View();
+            return Ok(db.CreateReservation(reservation.Id, reservation.ScreeningId, reservation.EmployeeReservedId, reservation.ReservationTypeId, reservation.ReservationContactName, Convert.ToBoolean(reservation.Reserved), reservation.EmployeePaidId, Convert.ToBoolean(reservation.Paid), Convert.ToBoolean(reservation.Active)));
         }
 
-        [HttpDelete]
-        public IActionResult Delete(int id)
+        [HttpDelete("{reservation}")]
+        public IActionResult Delete([FromBody] Reservation reservation)
         {
-            var t = db.DeleteReservations(id);
-
-            return View();
+            return Ok(db.DeleteReservations(reservation.Id));
         }
     }
 }

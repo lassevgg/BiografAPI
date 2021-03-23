@@ -4,9 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BiografAPI.Web.Data;
+using Microsoft.AspNetCore.Authorization;
+using BiografAPI.Web.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace BiografAPI.Web.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
     [ApiController]
     [Route("[controller]")]
     public class GenreController : Controller
@@ -19,37 +23,28 @@ namespace BiografAPI.Web.Controllers
             return Json(db.GetGenres());
         }
 
-        [HttpGet("{id}")]
-        public IActionResult ListAll(int id)
+        [HttpGet("{genre}")]
+        public IActionResult ListAll([FromBody] Genre genre)
         {
-            return Json(db.GetGenre(id));
-        }
-
-        [HttpPost]
-        public IActionResult Insert(int id, string type)
-        {
-            return Json(db.CreateGenre(id, type));
+            return Json(db.GetGenre(genre.Id));
         }
 
         [HttpPost("{genre}")]
-        public IActionResult InsertObject(BiografAPI.Web.Models.Genre genre)
+        public IActionResult Insert([FromBody] Genre genre)
         {
-            //swagger viser alt for meget sammenkoblet?
-
-            //return Json(db.CreateGenre(id, type));
-            return null;
+            return Json(db.CreateGenre(genre.Id, genre.Type));
         }
 
-        [HttpPut]
-        public IActionResult Update(int id, string newTypeValue)
+        [HttpPut("{genre}")]
+        public IActionResult Update([FromBody] Genre genre)
         {
-            return Json(db.UpdateGenre(id, newTypeValue));
+            return Json(db.UpdateGenre(genre.Id, genre.Type));
         }
 
-        [HttpDelete]
-        public IActionResult Delete(int id)
+        [HttpDelete("{genre}")]
+        public IActionResult Delete([FromBody] Genre genre)
         {
-            return Json(db.DeleteGenre(id));
+            return Json(db.DeleteGenre(genre.Id));
         }        
     }
 }
