@@ -21,7 +21,7 @@ namespace BiografAPI.Web.Controllers
             return Json(db.GetMovieList());
         }
 
-        [HttpGet]
+        [HttpGet("movie")]
         public IActionResult ListAll([FromBody] Movie movie)
         {
             return Json(db.GetMovie(movie.Id));
@@ -53,19 +53,19 @@ namespace BiografAPI.Web.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("movie")]
         public IActionResult Insert([FromBody] Movie movie)
         {
             return Ok(db.CreateMovie(movie.Id, movie.Title, Convert.ToInt32(movie.GenreId), movie.Director, movie.Description, Convert.ToInt32(movie.DurationMin)));
         }
 
-        [HttpPut]
+        [HttpPut("movie")]
         public IActionResult Update([FromBody] Movie movie)
         {
             return Ok(db.UpdateMovie(movie.Id, movie.Title, movie.GenreId, movie.Director, movie.Description, movie.DurationMin));
         }
 
-        [HttpDelete]
+        [HttpDelete("movie")]
         public IActionResult Delete([FromBody] Movie movie)
         {
             return Ok(db.DeleteEmployee(movie.Id));

@@ -23,12 +23,19 @@ namespace BiografAPI.Web.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Employee employeeModel)
         {
-            var employee = _AuthenticateService.Authenticate(employeeModel.Username, employeeModel.Password);
+            (Employee, string) employee = _AuthenticateService.Authenticate(employeeModel.Username, employeeModel.Password);
 
-            if (employee == null)
+            if (employee.Item1 == null)
                 return BadRequest(new { message = "Username or Password is incorrect. "}); ;
 
-            return Ok(employee);
+            AdminUser elevatedUser = new AdminUser()
+            {
+                Username = employee.Item1.Username,
+                Password = employee.Item1.Password,
+                JwtToken = employee.Item2
+            };
+
+            return Ok(elevatedUser);
         }
     }
 }

@@ -584,8 +584,13 @@ namespace BiografAPI.Web.Data
                             Row = seat.Row,
                             Number = seat.Number,
                             AuditoriumId = seat.AuditoriumId,
-                            Auditorium = context.Auditoria.Find(seat.AuditoriumId)
+                            //Auditorium = context.Auditoria.Find(seat.AuditoriumId)
                         };
+
+                        using (var secondaryContext = new BiografContext())
+                        {
+                            seatModel.Auditorium = secondaryContext.Auditoria.Find(seat.AuditoriumId);
+                        }
 
                         seatList.Add(seatModel);
                     }
@@ -714,9 +719,19 @@ namespace BiografAPI.Web.Data
                             SeatId = seatReserved.SeatId,
                             ReservationId = seatReserved.ReservationId,
                             ScreeningId = seatReserved.ScreeningId,
-                            Reservation = context.Reservations.Find(seatReserved.ReservationId),
-                            Screening = context.Screenings.Find(seatReserved.ScreeningId)
+                            //Reservation = context.Reservations.Find(seatReserved.ReservationId),
+                            //Screening = context.Screenings.Find(seatReserved.ScreeningId)
                         };
+
+                        using (var secondaryContext = new BiografContext())
+                        {
+                            seatReservedModel.Reservation = secondaryContext.Reservations.Find(seatReserved.ReservationId);
+                        }
+
+                        using (var tertiaryContext = new BiografContext())
+                        {
+                            seatReservedModel.Screening = tertiaryContext.Screenings.Find(seatReserved.ScreeningId);
+                        }
 
                         seatReservedList.Add(seatReservedModel);
                     }

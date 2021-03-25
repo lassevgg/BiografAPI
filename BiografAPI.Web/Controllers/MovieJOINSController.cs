@@ -15,7 +15,7 @@ namespace BiografAPI.Web.Controllers
     {
         DatabaseProcedures db = new DatabaseProcedures();
 
-        [HttpGet]
+        [HttpGet("movieModel")]
         public async Task<IActionResult> JoinMovieGenre([FromBody] Movie movieModel)
         {
             //var t = await new StreamReader(Request.Body).ReadToEndAsync(); //bare eksempel. Body får ikke noget ind i sig? todo

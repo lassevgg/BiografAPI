@@ -20,25 +20,25 @@ namespace BiografAPI.Web.Controllers
             return Json(db.GetReservationList());
         }
 
-        [HttpGet]
+        [HttpGet("reservation")]
         public IActionResult List([FromBody] Reservation reservation)
         {
             return Json(db.GetReservation(reservation.Id));
         }
 
-        [HttpPost]
+        [HttpPost("reservation")]
         public IActionResult Insert([FromBody] Reservation reservation)
         {
             return Ok(db.CreateReservation(reservation.Id, reservation.ScreeningId, reservation.EmployeeReservedId, reservation.ReservationTypeId, reservation.ReservationContactName, Convert.ToBoolean(reservation.Reserved), reservation.EmployeePaidId, Convert.ToBoolean(reservation.Paid), Convert.ToBoolean(reservation.Active)));
         }
 
-        [HttpPut]
+        [HttpPut("reservation")]
         public IActionResult Update([FromBody] Reservation reservation)
         {
             return Ok(db.CreateReservation(reservation.Id, reservation.ScreeningId, reservation.EmployeeReservedId, reservation.ReservationTypeId, reservation.ReservationContactName, Convert.ToBoolean(reservation.Reserved), reservation.EmployeePaidId, Convert.ToBoolean(reservation.Paid), Convert.ToBoolean(reservation.Active)));
         }
 
-        [HttpDelete]
+        [HttpDelete("reservation")]
         public IActionResult Delete([FromBody] Reservation reservation)
         {
             return Ok(db.DeleteReservations(reservation.Id));

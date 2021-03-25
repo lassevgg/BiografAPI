@@ -20,25 +20,31 @@ namespace BiografAPI.Web.Controllers
             return Json(db.GetSeatList());
         }
 
-        [HttpGet]
+        [HttpGet("ListAllSeatsOnAuditorium")]
+        public IActionResult ListAllSeatsOnAuditorium(int? auditoriumId)
+        {
+            return Json(db.GetSeatList().Where(x => x.AuditoriumId == auditoriumId));
+        }
+
+        [HttpGet("seat")]
         public IActionResult List([FromBody] Seat seat)
         {
             return Json(db.GetSeat(seat.Id));
         }
 
-        [HttpPost]
+        [HttpPost("seat")]
         public IActionResult Insert([FromBody] Seat seat)
         {
             return Ok(db.CreateSeat(seat.Id, seat.Row, seat.Number, seat.AuditoriumId));
         }
 
-        [HttpPut]
+        [HttpPut("seat")]
         public IActionResult Update([FromBody] Seat seat)
         {
             return Ok(db.UpdateSeat(seat.Id, seat.Row, seat.Number, seat.AuditoriumId));
         }
 
-        [HttpDelete]
+        [HttpDelete("seat")]
         public IActionResult Delete([FromBody] Seat seat)
         {
             return Ok(db.DeleteSeat(seat.Id));

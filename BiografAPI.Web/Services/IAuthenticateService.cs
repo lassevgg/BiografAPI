@@ -8,6 +8,6 @@ namespace BiografAPI.Web.Services
 {
     public interface IAuthenticateService
     {
-        Employee Authenticate(string userName, string password);
+        (Employee, string) Authenticate(string userName, string password);
     }
 }

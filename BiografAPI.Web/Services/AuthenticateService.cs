@@ -30,21 +30,24 @@ namespace BiografAPI.Web.Services
             }
         };
 
-        public Employee Authenticate(string userName, string password)
+        public (Employee, string) Authenticate(string userName, string password)
         {
             //todo brug db context her til at sammenligne employee brugere..
             var employee = employeeList.SingleOrDefault(x => x.Username == userName && x.Password == password);
 
             // return null if employee is not found
             if (employee == null)
-                return null;
+                return (null, null);
+
+            (Employee, string) elevatedUser;
+            elevatedUser.Item1 = employee;
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.SecretKey);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new System.Security.Claims.ClaimsIdentity(new Claim[] {
-                    new Claim(ClaimTypes.Name, employee.Id.ToString()),
+                Subject = new ClaimsIdentity(new Claim[] {
+                    new Claim(ClaimTypes.Name, elevatedUser.Item1.Id.ToString()),
                     new Claim(ClaimTypes.Role, "Admin"),
                     new Claim(ClaimTypes.Version, "V3.1")
                 }),
@@ -52,11 +55,12 @@ namespace BiografAPI.Web.Services
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            employee.Token = tokenHandler.WriteToken(token);
 
-            employee.Password = null;
+            elevatedUser.Item2 = tokenHandler.WriteToken(token);
 
-            return employee;
+            elevatedUser.Item1.Password = "HIDDEN";
+
+            return elevatedUser;
         }
     }
 }

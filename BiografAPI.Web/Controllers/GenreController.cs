@@ -23,25 +23,25 @@ namespace BiografAPI.Web.Controllers
             return Json(db.GetGenres());
         }
 
-        [HttpGet]
+        [HttpGet("genre")]
         public IActionResult ListAll([FromBody] Genre genre)
         {
             return Json(db.GetGenre(genre.Id));
         }
 
-        [HttpPost]
+        [HttpPost("genre")]
         public IActionResult Insert([FromBody] Genre genre)
         {
             return Json(db.CreateGenre(genre.Id, genre.Type));
         }
 
-        [HttpPut]
+        [HttpPut("genre")]
         public IActionResult Update([FromBody] Genre genre)
         {
             return Json(db.UpdateGenre(genre.Id, genre.Type));
         }
 
-        [HttpDelete]
+        [HttpDelete("genre")]
         public IActionResult Delete([FromBody] Genre genre)
         {
             return Json(db.DeleteGenre(genre.Id));

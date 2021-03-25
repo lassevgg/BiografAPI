@@ -20,25 +20,25 @@ namespace BiografAPI.Web.Controllers
             return Json(db.GetAuditoriumList());
         }
 
-        [HttpGet]
+        [HttpGet("auditorium")]
         public IActionResult List([FromBody] Auditorium auditorium)
         {
             return Json(db.GetAuditorium(auditorium.Id));
         }
 
-        [HttpPost]
+        [HttpPost("auditorium")]
         public IActionResult Insert([FromBody] Auditorium auditorium)
         {
             return Ok(db.CreateAuditorium(auditorium.Id, auditorium.Name, Convert.ToInt32(auditorium.SeatsNumber)));
         }
 
-        [HttpPut]
+        [HttpPut("auditorium")]
         public IActionResult Update([FromBody] Auditorium auditorium)
         {
             return Ok(db.UpdateAuditorium(auditorium.Id, auditorium.Name, auditorium.SeatsNumber));
         }
 
-        [HttpDelete]
+        [HttpDelete("auditorium")]
         public IActionResult Delete([FromBody] Auditorium auditorium)
         {
             return Ok(db.DeleteAuditorium(auditorium.Id));
