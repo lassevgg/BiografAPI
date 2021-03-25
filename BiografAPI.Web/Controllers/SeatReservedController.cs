@@ -1,4 +1,5 @@
 ﻿using BiografAPI.Web.Data;
+using BiografAPI.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,34 +20,28 @@ namespace BiografAPI.Web.Controllers
             return Json(db.GetSeatReservedList());
         }
 
-        [HttpGet("{id}")]
-        public IActionResult List(int id)
+        [HttpGet]
+        public IActionResult List([FromBody] SeatReserved seatReserved)
         {
-            return Json(db.GetSeatReserved(id));
+            return Json(db.GetSeatReserved(seatReserved.Id));
         }
 
         [HttpPost]
-        public IActionResult Insert(int id, int? seatId, int? reservationId, int? screeningId)
+        public IActionResult Insert([FromBody] SeatReserved seatReserved)
         {
-            var t = db.CreateSeatReserved(id, seatId, reservationId, screeningId);
-
-            return View();
+            return Ok(db.CreateSeatReserved(seatReserved.Id, seatReserved.SeatId, seatReserved.ReservationId, seatReserved.ScreeningId));
         }
 
         [HttpPut]
-        public IActionResult Update(int id, int? newSeatIdValue, int? newReservationIdValue, int? newScreeningIdValue)
+        public IActionResult Update([FromBody] SeatReserved seatReserved)
         {
-            var t = db.UpdateSeatReserved(id, newSeatIdValue, newReservationIdValue, newScreeningIdValue);
-
-            return View();
+            return Ok(db.UpdateSeatReserved(seatReserved.Id, seatReserved.SeatId, seatReserved.ReservationId, seatReserved.ScreeningId));
         }
 
         [HttpDelete]
-        public IActionResult Delete(int id)
+        public IActionResult Delete([FromBody] SeatReserved seatReserved)
         {
-            var t = db.DeleteSeatReserved(id);
-
-            return View();
+            return Ok(db.DeleteSeatReserved(seatReserved.Id));
         }
     }
 }

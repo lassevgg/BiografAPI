@@ -20,25 +20,25 @@ namespace BiografAPI.Web.Controllers
             return Json(db.GetReservationTypeList());
         }
 
-        [HttpGet("{reservationType}")]
+        [HttpGet]
         public IActionResult List([FromBody] ReservationType reservationType)
         {
             return Json(db.GetReservationType(reservationType.Id));
         }
 
-        [HttpPost("{reservationType}")]
+        [HttpPost]
         public IActionResult Insert([FromBody] ReservationType reservationType)
         {
             return Ok(db.CreateReservationType(reservationType.Id, reservationType.Type));
         }
 
-        [HttpPut("{reservationType}")]
+        [HttpPut]
         public IActionResult Update([FromBody] ReservationType reservationType)
         {
             return Ok(db.UpdateReservationType(reservationType.Id, reservationType.Type));
         }
 
-        [HttpDelete("{reservationType}")]
+        [HttpDelete]
         public IActionResult Delete([FromBody] ReservationType reservationType)
         {
             return Ok(db.DeleteReservationType(reservationType.Id));

@@ -1,4 +1,5 @@
 ﻿using BiografAPI.Web.Data;
+using BiografAPI.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,48 +14,34 @@ namespace BiografAPI.Web.Controllers
     {
         DatabaseProcedures db = new DatabaseProcedures();
 
-        /*
-        [HttpGet]
-        [HttpGet("{id}")]
-        [HttpPost]
-        [HttpPut]
-        [HttpDelete]
-         */
-
         [HttpGet]
         public IActionResult ListAll()
         {
             return Json(db.GetSeatList());
         }
 
-        [HttpGet("{id}")]
-        public IActionResult List(int id)
+        [HttpGet]
+        public IActionResult List([FromBody] Seat seat)
         {
-            return Json(db.GetSeat(id));
+            return Json(db.GetSeat(seat.Id));
         }
 
         [HttpPost]
-        public IActionResult Insert(int id, int? row, int? number, int? auditoriumId)
+        public IActionResult Insert([FromBody] Seat seat)
         {
-            var t = db.CreateSeat(id, row, number, auditoriumId);
-
-            return View();
+            return Ok(db.CreateSeat(seat.Id, seat.Row, seat.Number, seat.AuditoriumId));
         }
 
         [HttpPut]
-        public IActionResult Update(int id, int? newRowValue, int? newNumberValue, int? newAuditoriumIdValue)
+        public IActionResult Update([FromBody] Seat seat)
         {
-            var t = db.UpdateSeat(id, newRowValue, newNumberValue, newAuditoriumIdValue);
-
-            return View();
+            return Ok(db.UpdateSeat(seat.Id, seat.Row, seat.Number, seat.AuditoriumId));
         }
 
         [HttpDelete]
-        public IActionResult Delete(int id)
+        public IActionResult Delete([FromBody] Seat seat)
         {
-            var t = db.DeleteSeat(id);
-
-            return View();
+            return Ok(db.DeleteSeat(seat.Id));
         }
     }
 }

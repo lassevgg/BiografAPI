@@ -20,25 +20,25 @@ namespace BiografAPI.Web.Controllers
             return Json(db.GetEmployeeList());
         }
 
-        [HttpGet("{employee}")]
+        [HttpGet]
         public IActionResult List([FromBody]Employee employee)
         {
             return Json(db.GetEmployee(employee.Id));
         }
 
-        [HttpPost("{employee}")]
+        [HttpPost]
         public IActionResult Insert([FromBody] Employee employee)
         {
             return Ok(db.CreateEmployee(employee.Id, employee.Username, employee.Password));
         }
 
-        [HttpPut("{employee}")]
+        [HttpPut]
         public IActionResult Update([FromBody] Employee employee)
         {
             return Ok(db.UpdateEmployee(employee.Id, employee.Username, employee.Password));
         }
 
-        [HttpDelete("{employee}")]
+        [HttpDelete]
         public IActionResult Delete([FromBody] Employee employee)
         {
             return Ok(db.DeleteEmployee(employee.Id));

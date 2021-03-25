@@ -21,7 +21,7 @@ namespace BiografAPI.Web.Controllers
             return Json(db.GetScreeningList());
         }
 
-        [HttpGet("{screening}")]
+        [HttpGet]
         public IActionResult List([FromBody]Screening screening)
         {
             return Json(db.GetScreening(screening.Id));
@@ -46,13 +46,13 @@ namespace BiografAPI.Web.Controllers
         //    return Json(db.GetScreeningList().Where(x => x.ScreeningStart.Value.Date >= startOfWeek && x.ScreeningStart.Value.Date <= endOfWeek).ToList());
         //}
 
-        [HttpPost("{screening}")]
+        [HttpPost]
         public IActionResult Insert([FromBody]Screening screening)
         {
             return Ok(db.CreateScreening(screening.Id, Convert.ToInt32(screening.MovieId), Convert.ToInt32(screening.AuditoriumId), screening.ScreeningStart));
         }
 
-        [HttpPut("{screening}")]
+        [HttpPut]
         public IActionResult Update([FromBody]Screening screening, int id, int? newMovieIdValue, int? newAuditoriumIdValue, DateTime? screeningStart)
         {
             var t = db.UpdateScreening(id, newMovieIdValue, newAuditoriumIdValue, screeningStart);
@@ -60,7 +60,7 @@ namespace BiografAPI.Web.Controllers
             return View();
         }
 
-        [HttpDelete("{screening}")]
+        [HttpDelete]
         public IActionResult Delete([FromBody]Screening screening, int id)
         {
             var t = db.DeleteScreening(id);
