@@ -1207,6 +1207,39 @@ namespace BiografAPI.Web.Data
             }
         }
 
+        public Employee GetEmployeeLogin(string username, string password)
+        {
+            try
+            {
+                Employee employeeModel = null;
+
+                using (var context = new BiografContext())
+                {
+                    foreach (var item in context.Employees)
+                    {
+                        if (item.Username.ToLower() == username.ToLower())
+                        {
+                            if (item.Password.ToLower() == password.ToLower())
+                            {
+                                employeeModel = new Employee()
+                                {
+                                    Id = item.Id,
+                                    Username = item.Username,
+                                    Password = item.Password
+                                };
+                            }
+                        }
+                    }                    
+                }
+
+                return employeeModel;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         public bool UpdateEmployee(int id, string newUsernameValue, string newPasswordValue)
         {
             try

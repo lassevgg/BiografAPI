@@ -26,6 +26,14 @@ namespace BiografAPI.Web.Controllers
             return Json(db.GetEmployee(employee.Id));
         }
 
+        [HttpGet("employee/{username}/{password}")]
+        public IActionResult Login(string username, string password)
+        {
+            var userFound = db.GetEmployeeLogin(username, password);
+
+            return Json(userFound);
+        }
+
         [HttpPost("employee")]
         public IActionResult Insert([FromBody] Employee employee)
         {
