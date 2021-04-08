@@ -8,9 +8,10 @@ using Microsoft.AspNetCore.Authorization;
 using BiografAPI.Web.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
+
 namespace BiografAPI.Web.Controllers
 {
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
     [ApiController]
     [Route("[controller]")]
     public class GenreController : Controller

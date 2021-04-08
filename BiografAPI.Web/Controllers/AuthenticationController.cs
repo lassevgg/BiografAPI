@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace BiografAPI.Web.Controllers
 {
-    [Route("[controller]")]
     [ApiController]
-    public class AuthenticationController : ControllerBase
+    [Route("[controller]")]    
+    public class AuthenticationController : Controller
     {
         private IAuthenticateService _AuthenticateService;
 
@@ -23,7 +23,7 @@ namespace BiografAPI.Web.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Employee employeeModel)
         {
-            (Employee, string) employee = _AuthenticateService.Authenticate(employeeModel.Username, employeeModel.Password);
+            (Employee, string) employee = _AuthenticateService.Authenticate(employeeModel);
 
             if (employee.Item1 == null)
                 return BadRequest(new { message = "Username or Password is incorrect. "}); ;
@@ -33,9 +33,9 @@ namespace BiografAPI.Web.Controllers
                 Username = employee.Item1.Username,
                 Password = employee.Item1.Password,
                 JwtToken = employee.Item2
-            };
+            };            
 
-            return Ok(elevatedUser);
+            return Json(elevatedUser);
         }
     }
 }

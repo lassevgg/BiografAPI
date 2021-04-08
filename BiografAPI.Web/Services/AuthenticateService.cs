@@ -1,4 +1,5 @@
-﻿using BiografAPI.Web.Models;
+﻿using BiografAPI.Web.Data;
+using BiografAPI.Web.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -14,33 +15,26 @@ namespace BiografAPI.Web.Services
     public class AuthenticateService : IAuthenticateService
     {
         private readonly AppSettings _appSettings;
+        DatabaseProcedures db = new DatabaseProcedures();
 
         public AuthenticateService(IOptions<AppSettings> appSettings)
         {
             _appSettings = appSettings.Value;
         }
 
-        private List<Employee> employeeList = new List<Employee>()
-        {
-            new Employee
-            {
-                Id = 000,
-                Username = "TestUser",
-                Password = "TestPassword"
-            }
-        };
-
-        public (Employee, string) Authenticate(string userName, string password)
+        public (Employee, string) Authenticate(Employee employeeIn)
         {
             //todo brug db context her til at sammenligne employee brugere..
-            var employee = employeeList.SingleOrDefault(x => x.Username == userName && x.Password == password);
+            //var employee = employeeList.SingleOrDefault(x => x.Username == userName && x.Password == password);
+
+            var userFound = db.GetEmployeeLogin(employeeIn.Username, employeeIn.Password);
 
             // return null if employee is not found
-            if (employee == null)
+            if (userFound == null)
                 return (null, null);
 
             (Employee, string) elevatedUser;
-            elevatedUser.Item1 = employee;
+            elevatedUser.Item1 = userFound;
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.SecretKey);
