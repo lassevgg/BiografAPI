@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace BiografAPI.Web.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
     [ApiController]
     [Route("[controller]")]
     public class GenreController : Controller
@@ -31,7 +31,7 @@ namespace BiografAPI.Web.Controllers
         }
 
         [HttpPost("genre")]
-        public IActionResult Insert([FromBody] Genre genre)
+        public IActionResult Post([FromBody] Genre genre)
         {
             return Json(db.CreateGenre(genre.Id, genre.Type));
         }
