@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using BiografAPI.Web.Models;
 
@@ -33,13 +34,13 @@ namespace BiografAPI.Web.Data
             }
         }
 
-        public List<Genre> GetGenres()
+        public async Task<List<Genre>> GetGenres()
         {
             try
             {
                 List<Genre> genres = new List<Genre>();
 
-                using (var context = new BiografContext())
+                await using (var context = new BiografContext())
                 {
                     foreach (var item in context.Genres)
                     {
@@ -230,13 +231,13 @@ namespace BiografAPI.Web.Data
                 using (var context = new BiografContext())
                 {
                     var movie = context.Movies.Find(id);
-                    if (string.IsNullOrEmpty(newTitleValue))
+                    if (!string.IsNullOrEmpty(newTitleValue))
                         movie.Title = newTitleValue;
                     if (newGenreIdValue != null)
                         movie.GenreId = newGenreIdValue;
-                    if (string.IsNullOrEmpty(newDirectorValue))
+                    if (!string.IsNullOrEmpty(newDirectorValue))
                         movie.Director = newDirectorValue;
-                    if (string.IsNullOrEmpty(newDescriptionValue))
+                    if (!string.IsNullOrEmpty(newDescriptionValue))
                         movie.Description = newDescriptionValue;
                     if (newDurationMin != null)
                         movie.DurationMin = newDurationMin;

@@ -15,16 +15,16 @@ namespace BiografAPI.Web.Controllers
     {
         DatabaseProcedures db = new DatabaseProcedures();
 
-        [HttpGet("movieModel")]
-        public async Task<IActionResult> JoinMovieGenre([FromBody] Movie movieModel)
-        {
-            //var t = await new StreamReader(Request.Body).ReadToEndAsync(); //bare eksempel. Body får ikke noget ind i sig? todo
+        //[HttpGet("movieModel")]
+        //public async Task<IActionResult> JoinMovieGenre([FromBody] Movie movieModel)
+        //{
+        //    //var t = await new StreamReader(Request.Body).ReadToEndAsync(); //bare eksempel. Body får ikke noget ind i sig? todo
 
-            var joined = from movie in db.GetMovieList()
-                         join genre in db.GetGenres() on movie.GenreId equals genre.Id
-                         select movie.Title;
+        //    //var joined = from movie in db.GetMovieList()
+        //    //             join genre in db.GetGenres() on movie.GenreId equals genre.Id
+        //    //             select movie.Title;
 
-            return Json(joined);
-        }
+        //    //return Json(joined);
+        //}
     }
 }

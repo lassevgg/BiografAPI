@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace BiografAPI.Web.Controllers
 {
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
     [ApiController]
     [Route("[controller]")]
     public class GenreController : Controller
@@ -19,9 +19,11 @@ namespace BiografAPI.Web.Controllers
         DatabaseProcedures db = new DatabaseProcedures();
 
         [HttpGet]
-        public IActionResult ListAll()
+        public async Task<IActionResult> ListAll()
         {
-            return Json(db.GetGenres());
+            var t = await db.GetGenres();
+
+            return Json(t);
         }
 
         [HttpGet("genre")]
